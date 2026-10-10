@@ -2,17 +2,23 @@
 
 Mindustry 客户端模组：**建造、拆除或规划时，让建造预览遮挡的部分变透明**，方便看清要放置/拆除的位置。
 
-> **代码来源**：本模组的玩法逻辑来自 Miner（GitHub [MinRi2](https://github.com/MinRi2)）的
+> **代码来源**：本模组的玩法逻辑来自 Miner（GitHub [MinRi2](https://github.com/MinRi2)，原版仓库
+> [Dustdustry/BuildXray](https://github.com/Dustdustry/BuildXray)）的
 > JavaScript 模组 **build-xray**（`scripts/main.js`）。本仓库是它的 **Java 移植版**，用于并入
 > [Neon](../Neon) 聚合包。原始脚本与描述文件原样保存在 [`original/`](original) 下，便于逐行对照；
+> 原版仓库的只读检出在工作区上层 [`../BuildXray-upstream`](../BuildXray-upstream)，用于拉取新版对照。
 > 原始作品版权归 Miner 所有，遵循 GPL-3.0。
 
 ## 功能
 
-- 正在建造 / 拆除 / 拖拽选择 / 规划蓝图时，被预览遮住的部分（腿部单位、飞行单位、子弹与特效）逐渐透明。
+- 正在建造 / 拆除 / 拖拽选择 / 规划蓝图时，被预览遮住的部分（等离子钻头光束、腿部单位、飞行单位、
+  子弹与特效）逐渐透明。
 - 「透视遮罩的透明度」可调（0%–100%）。
 - 鼠标周围有一块始终透明的圆形区域，半径可调（8–64 格）。
-- 默认值：透明度 80%、鼠标半径 32 格（原脚本变量本意；见 `docs/architecture.md` 的说明）。
+- 淡入 / 淡出时间可调（0–1000 ms / 0–3000 ms）：开始操作时缓慢显现，停止后缓慢恢复；
+  选区遮罩在淡出期间保持显示。
+- 默认值：透明度 80%、鼠标半径 32 格、淡入 150 ms、淡出 1200 ms
+  （与上游 v1.2 脚本的变量本意一致；见 `docs/architecture.md`）。
 
 ## 构建
 
@@ -26,7 +32,7 @@ Mindustry 客户端模组：**建造、拆除或规划时，让建造预览遮�
 产物：
 
 - `构建/BuildXray/BuildXray-dev.jar`（本地测试用，含 `classes.dex`）
-- `dist/BuildXray-1.0.0.jar`（桌面 + 安卓合并 jar）
+- `dist/BuildXray-1.2.0.jar`（桌面 + 安卓合并 jar）
 
 ## 与 Neon 的关系
 

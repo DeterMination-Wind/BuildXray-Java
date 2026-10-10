@@ -2,7 +2,7 @@
   "name": "BuildXray",
   "displayName": "Build X-Ray / 建造透视",
   "author": "minRi2 (Miner)",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "minGameVersion": 160,
   "description": "Makes what the build preview covers transparent while you build, break or plan. Java port of the build-xray script mod by Miner (minRi2). / 建造、拆除或规划时让建造预览遮挡的部分透明。Miner（minRi2）的 build-xray 脚本模组的 Java 移植版。",
   "main": "buildxray.BuildXrayMod",

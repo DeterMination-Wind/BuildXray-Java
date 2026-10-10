@@ -26,7 +26,8 @@ docs/
 ## 相关文件
 
 - [../AGENTS.md](../AGENTS.md)：仓库维护约束。
-- [../original/scripts/main.js](../original/scripts/main.js)：Miner 的原始 JS 实现（只读参照物）。
+- [../original/scripts/main.js](../original/scripts/main.js)：Miner 的原始 JS 实现（只读快照）。
+- [../../BuildXray-upstream](../../BuildXray-upstream)：上游 JS 原版仓库的只读检出（对照用，不在本仓库内）。
 - [../../Neon/docs/README.md](../../Neon/docs/README.md)：Neon 聚合包的文档入口。
 
 ## 维护约定

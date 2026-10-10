@@ -23,7 +23,7 @@ $jdk = "-Dorg.gradle.java.home=C:\Program Files\Java\jdk-17"
 产物：
 
 - `构建/BuildXray/BuildXray-dev.jar`：本地测试用（`copyDevArtifact`）。
-- `dist/BuildXray-1.0.0.jar`：`jarMerged` 直接产物（`copyMergedJarToDist`）。
+- `dist/BuildXray-1.2.0.jar`：`jarMerged` 直接产物（`copyMergedJarToDist`）。
 
 ## 改代码时注意
 
@@ -33,6 +33,29 @@ $jdk = "-Dorg.gradle.java.home=C:\Program Files\Java\jdk-17"
 - 帧缓冲/着色器必须延迟到第一次绘制帧创建（`ensureShader()`），不要在 `init()` 里 new。
 - 设置项命名遵循 Neon 规范：主开关 `bx-enabled`，其余键 `<模块前缀>-<名>`；bundle 键
   `setting.<key>.name` / `.description`，语言文案在两份 bundle 里同步。
+
+## 上游更新流程
+
+上游 JS 原版仓库 `Dustdustry/BuildXray` 的只读检出在工作区上层 `../BuildXray-upstream`：
+
+```powershell
+# 首次或需要重建检出时（本机 github.com 直连不稳，gh 可用）：
+gh repo clone Dustdustry/BuildXray ../BuildXray-upstream -- --depth 50
+
+# 后续拉取新版：
+cd ../BuildXray-upstream; git pull
+```
+
+上游发新版时：
+
+1. 先看 `git log --oneline` 与 `git diff <旧 tag>..<新 tag> -- scripts/main.js`，弄清行为变化；
+2. 对照 diff 把变化移植进 `src/main/java/buildxray/BuildXrayFeature.java`（保持类结构，不直接翻译
+   JS 全局量）；
+3. 把上游的 `mod.json` / `scripts/main.js` / `bundles/*.properties` 覆盖回本仓库 `original/`
+   （`original/` 是原版快照，不是手改对象）；
+4. 同步 `mod.json` / `build.gradle` 的版本号（与上游版本对齐，如 v1.2 → `1.2.0`），更新
+   bundle 两份文案与 `docs/`；
+5. 本地 `deploy` 验证后提交，再回 Neon 同步（见下节）。
 
 ## 与 Neon 的同步流程
 
