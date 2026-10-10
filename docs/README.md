@@ -6,7 +6,7 @@ BuildXray 的分类文档。文档以中文为主，设置名与代码标识保�
 
 | 你是 | 从这里开始 |
 | --- | --- |
-| 玩家 | [README.md](../README.md) 的功能与构建说明 |
+| 玩家 | [README.md](../README.md) 的仓库简介 |
 | 想改代码的人 | [architecture.md](architecture.md) 与 [development.md](development.md) |
 | 准备交付 / 发版 | [release.md](release.md) |
 | 遇到不认识的词 | [glossary.md](glossary.md) |
