@@ -11,7 +11,7 @@
   核心逻辑只有 `src/main/java/buildxray/` 下两个类。
 - **代码来源**：玩法逻辑来自 Miner（minRi2）的 JavaScript 模组 **build-xray**（原版仓库
   [Dustdustry/BuildXray](https://github.com/Dustdustry/BuildXray)），本仓库是 Java 移植版并并入
-  Neon 聚合。原始 `scripts/main.js` 与 `mod.json` 原样保存在 `original/`，改动移植逻辑时应先对照
+  Neon 聚合。原始 `scripts/main.js` 与描述文件（v1.3 起上游为 `mod.hjson`）原样保存在 `original/`，改动移植逻辑时应先对照
   原始脚本；原版仓库的只读检出在工作区上层 `../BuildXray-upstream`，用于拉取新版对照
   （它不是 Neon 的同步源）。上游作品版权归 Miner 所有（GPL-3.0，见 `LICENSE`）。
 - 面向 Mindustry v160+（`minGameVersion: 160`），桌面与安卓；不要求服务器安装。
@@ -22,7 +22,7 @@
 - `src/main/java/buildxray/BuildXrayMod.java` — 入口（`mod.json` 的 `main`）。薄壳：
   生命周期转发 + `bekBundled` / `bekBuildSettings(...)` 聚合契约。
 - `src/main/java/buildxray/BuildXrayFeature.java` — 全部功能逻辑（触发判定、遮罩绘制、
-  帧缓冲捕获、着色器合成、设置项）。
+  帧缓冲捕获、着色器合成、设置项与指针透视键位注册）。
 - `src/main/resources/bundles/bundle.properties` / `bundle_zh_CN.properties` — 两份语言文案
   （en / zh_CN，与原 JS 模组的语言覆盖一致），改动必须两份同步。
 - `original/` — Miner 的原始脚本、描述文件与原始 bundle，**只读参照物，不要手改**；
@@ -53,20 +53,23 @@
 - 帧缓冲与着色器只能**延迟创建**（第一次绘制帧）：`arc.graphics.gl.Shader` 在构造函数里
   就编译 GLSL，放到 `init()` 里会在没有 GL 上下文时失败。
 - 着色器源码与 `Draw.blit()` 的纹理单元约定不要随意改动：`u_texture` 必须是 0（捕获画面），
-  遮罩必须绑到 1（`u_trans_texture`）；`applyTrans()` 的三个图层窗口（钻头光束 / 腿部单位 /
-  飞行单位）是效果的全部范围，blit 前的 `Blending.normal.apply()` 是上游修复，不要删。
+  遮罩必须绑到 1（`u_trans_texture`）；`applyTrans()` 的四个图层窗口（钻头光束 / 腿部单位 /
+  单位与墙体阴影 / 飞行单位）是效果的全部范围，blit 前的 `Blending.normal.apply()` 是上游修复，不要删。
+- 指针透视键位沿用上游名字 `build-xray.peek`（显示键 `keybind.build-xray.peek.name`），
+  分类复用 `category.build-xray.name`；不要把它改写成 `bx-*`——只有设置键才用 Neon 前缀命名。
 - 用户可见文案走 bundle 两份语言文件，不硬编码。
 - 日志用 `arc.util.Log`，前缀 `BuildXray: `，不要 `System.out`。
-- 默认值（透明度 80% / 半径 32 格 / 淡入 150 ms / 淡出 1200 ms）与上游 v1.2 脚本一致；
+- 默认值（透明度 80% / 半径 32 格 / 淡入 150 ms / 淡出 1200 ms）与上游 v1.3 脚本一致；
   不要改回 v1.0 里被 Rhino 类型转换破坏的 `sliderPref` 默认值（`docs/architecture.md` 有说明）。
 
 ## 验证清单（改动后）
 
 1. `.\gradlew.bat ... deploy` 成功，`构建/BuildXray/BuildXray-dev.jar` 与
-   `dist/BuildXray-1.2.0.jar` 均更新。
+   `dist/BuildXray-1.3.0.jar` 均更新。
 2. 发版/交付 jar 必须含 `mod.json` + `buildxray.BuildXrayMod` + `classes.dex`。
-3. 按 [docs/testing.md](docs/testing.md) 手测：建造 / 拆除 / 区域选择 / 蓝图拖拽触发透明，
-   停止操作后按淡出时间恢复，四个滑条即时生效，设置页在独立形态与聚合形态下都不重复注册。
+3. 按 [docs/testing.md](docs/testing.md) 手测：建造 / 拆除 / 区域选择 / 蓝图拖拽 / 按住指针透视键触发透明，
+   停止操作后按淡出时间恢复，四个滑条即时生效，设置页在独立形态与聚合形态下都不重复注册，
+   键位在游戏的 设置 → 键位 页里可改绑。
 4. 回 Neon 执行 `python tools/update_submods.py --only bx` 后跑 `--check`，并确认
    `gradlew compileJava` 通过。
 

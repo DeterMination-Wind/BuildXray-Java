@@ -18,11 +18,13 @@
    画进 `transBuffer`：
    - 拆除 / 区域选择 / 蓝图拖拽时，用 `Placement.normalizeDrawArea(...)` 算出选区矩形，中心与
      尺寸按 `sqrt2 * 1.5` 放大，使一张圆形精灵覆盖整个矩形；
-   - 放置或投放物品时，在鼠标位置画一个半径为 `bx-mouse-radius` 格的圆。
+   - 放置、投放物品，或按住指针透视键（v1.3 起，默认 Alt）时，在鼠标位置画一个半径为
+     `bx-mouse-radius` 格的圆。
 2. **捕获世界**：`Draw.draw(zStart, ...)` 在图层窗口起点清空 `screenBuffer`，`Draw.draw(zEnd, ...)`
-   在终点结束捕获。窗口是原脚本选定的三段：
+   在终点结束捕获。窗口是原脚本选定的四段：
    - `[Layer.power - 1.001, Layer.power - 0.999]`：等离子钻头（plasma bore）的光束；
    - `[Layer.legUnit - 2.001, Layer.legUnit + 2.001]`：腿部单位（`legUnit = 75`）；
+   - `[Layer.darkness - 0.001, Layer.darkness + 0.001]`：单位与墙体阴影（`darkness = 80`，v1.3 起）；
    - `[Layer.flyingUnitLow - 2.001, Layer.flyingUnit + 2.001]`：低空/高空飞行单位，以及同一区间里的
      子弹（`bullet = 100`）与特效（`effect = 110`）。
    建筑（`block = 30`）与地板（`floor = 0`）不在窗口内，因此建造预览本身始终清晰。
@@ -60,7 +62,9 @@
 
 与原脚本一致：桌面端需要按住 `Binding.schematicSelect` 并已有选择起点且当前没有键盘焦点，
 移动端看 `MobileInput.schematicMode`；此外 `isPlacing()` / `isBreaking()` / `isDroppingItem()` /
-`isRebuildSelecting()` 任一为真都算"规划中"。
+`isRebuildSelecting()` 任一为真都算"规划中"。v1.3 起，按住指针透视键 `build-xray.peek`
+（默认 Alt，可在游戏的 设置 → 键位 页改绑）且没有键盘焦点时同样进入规划状态，只透视指针
+周围。
 
 ## 默认值与设置键
 
