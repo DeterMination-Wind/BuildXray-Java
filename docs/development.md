@@ -23,7 +23,7 @@ $jdk = "-Dorg.gradle.java.home=C:\Program Files\Java\jdk-17"
 产物：
 
 - `构建/BuildXray/BuildXray-dev.jar`：本地测试用（`copyDevArtifact`）。
-- `dist/BuildXray-1.3.0.jar`：`jarMerged` 直接产物（`copyMergedJarToDist`）。
+- `dist/BuildXray-1.5.0.jar`：`jarMerged` 直接产物（`copyMergedJarToDist`）。
 
 ## 改代码时注意
 
@@ -53,8 +53,9 @@ cd ../BuildXray-upstream; git pull
 1. 先看 `git log --oneline` 与 `git diff <旧 tag>..<新 tag> -- scripts/main.js`，弄清行为变化；
 2. 对照 diff 把变化移植进 `src/main/java/buildxray/BuildXrayFeature.java`（保持类结构，不直接翻译
    JS 全局量）；
-3. 把上游的 `mod.hjson` / `scripts/main.js` / `bundles/*.properties` 覆盖回本仓库 `original/`
-   （`original/` 是原版快照，不是手改对象；v1.3 起上游把 `mod.json` 换成了 `mod.hjson`）；
+3. 把上游的 `mod.hjson` / `scripts/main.js` / `scripts/plan-area.js` / `bundles/*.properties`
+   覆盖回本仓库 `original/`（`original/` 是原版快照，不是手改对象；v1.3 起上游把 `mod.json`
+   换成了 `mod.hjson`，v1.4 起多出 `scripts/plan-area.js`）；
 4. 同步 `mod.json` / `build.gradle` 的版本号（与上游版本对齐，如 v1.3 → `1.3.0`），更新
    bundle 两份文案与 `docs/`；
 5. 本地 `deploy` 验证后提交，再回 Neon 同步（见下节）。

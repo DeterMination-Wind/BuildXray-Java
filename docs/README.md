@@ -16,7 +16,7 @@ BuildXray 的分类文档。文档以中文为主，设置名与代码标识保�
 ```text
 docs/
 |-- README.md          本页：文档导航
-|-- architecture.md    架构：三阶段透明合成、图层窗口、默认值来由
+|-- architecture.md    架构：v1.5 单缓冲遮罩、图层窗口、区域来源、默认值来由
 |-- development.md     开发：环境、构建命令、与 Neon 的同步流程
 |-- release.md         版本与产物
 |-- testing.md         手测清单
@@ -27,6 +27,7 @@ docs/
 
 - [../AGENTS.md](../AGENTS.md)：仓库维护约束。
 - [../original/scripts/main.js](../original/scripts/main.js)：Miner 的原始 JS 实现（只读快照）。
+- [../original/scripts/plan-area.js](../original/scripts/plan-area.js)：v1.4 起的规划区域辅助脚本（只读快照）。
 - [../../BuildXray-upstream](../../BuildXray-upstream)：上游 JS 原版仓库的只读检出（对照用，不在本仓库内）。
 - [../../Neon/docs/README.md](../../Neon/docs/README.md)：Neon 聚合包的文档入口。
 
